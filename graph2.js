@@ -1,9 +1,16 @@
+// create scale
 let x2 = d3.scaleBand()
-            .range([0, graph_2_width])
+            .range([0, graph_2_width - margin.right - margin.top])
             .padding(0.1);
 let y2 = d3.scaleBand()
-            .range([0, graph_2_height])
+            .range([0, graph_2_height - margin.top - margin.bottom])
             .padding(0.1);
+
+// Create explanatory title
+let title2 = graph2.append("text")
+            .attr("transform", `translate(${graph_2_width/2 - margin.right}, ${-margin.top/4})`)
+            .style("text-anchor", "middle")
+            .style("font-size", 15).text("Genre Sales by Location");
 
 function create_graph2() {
     var data = parseDataByRegion(DATA)
@@ -11,14 +18,17 @@ function create_graph2() {
     // Find max value for one genre over all locations
     let MAX = d3.max(Object.values(data), d => d3.max(Object.values(d)))
     
+    // Color based on how many sales. Darker means more sales
     var myColor = d3.scaleLinear()
         .range(["#c5e0da", "#00b08a"])
         .domain([0,MAX])
 
+    // Created x and y axes
     x2.domain(Object.keys(data))
     graph2.append("g")
-        .attr("transform", "translate(0," + graph_2_height + ")")
+        .attr("transform", "translate(0," + (graph_2_height - margin.bottom - margin.top) + ")")
         .call(d3.axisBottom(x2))
+
     y2.domain(Object.keys(data["North America"]))
     graph2.append("g")
         .call(d3.axisLeft(y2));
@@ -39,18 +49,16 @@ function create_graph2() {
       tooltip.style("opacity", 1)
     }
     var mousemove = function(d) {
-        console.log(d3.mouse(this))
       tooltip
-        .html("Sales: " + d.value + " Million")
-        .style("left", (d3.mouse(this)[0] + 70) + "px")
+        .html("Sales: " + ((Math.round(d.value))/100) + " Million")
+        .style("left", (d3.mouse(this)[0]+70) + "px")
         .style("top", (d3.mouse(this)[1]) + "px")
     }
     var mouseleave = function(d) {
       tooltip.style("opacity", 0)
     }
-
+    //Flatten and then created heatmap
     data = flatten_data(data)
-    console.log(data)
     graph2.selectAll()
         .data(data).enter().append('rect')
         .attr("x", function(d) { return x2(d["region"]) })
@@ -63,11 +71,13 @@ function create_graph2() {
         .on("mouseleave", mouseleave)
 }
 
+// Function to turn our nested objects into
+// an array of objects for D3
 function flatten_data(data) {
     var flattened_data = []
     keys1 = Object.keys(data)
     keys2 = Object.keys(data["North America"])
-    // console.log(keys2)
+    
     keys1.forEach((k1) => keys2.forEach((k2) => {
         let data_point = {
             "region": k1,
@@ -76,10 +86,12 @@ function flatten_data(data) {
         }
         flattened_data.push(data_point)
     }))
-    // console.log(flattened_data)
+
     return flattened_data
 }
 
+
+// Get the total sales in each genre for each region.
 function parseDataByRegion(data) {
     var data_by_region = {
                         "North America": {},
@@ -90,15 +102,15 @@ function parseDataByRegion(data) {
     data.forEach(element => {
         var genre = element.Genre
         if (data_by_region["North America"][genre]) {
-            data_by_region["North America"][genre] += parseInt(element.NA_Sales)
-            data_by_region["Japan"][genre] += parseInt(element.JP_Sales)
-            data_by_region["Europe"][genre] += parseInt(element.EU_Sales)
-            data_by_region["Other"][genre] += parseInt(element.Other_Sales)
+            data_by_region["North America"][genre] += parseFloat(element.NA_Sales)
+            data_by_region["Japan"][genre] += parseFloat(element.JP_Sales)
+            data_by_region["Europe"][genre] += parseFloat(element.EU_Sales)
+            data_by_region["Other"][genre] += parseFloat(element.Other_Sales)
         } else {
-            data_by_region["North America"][genre] = parseInt(element.NA_Sales)
-            data_by_region["Japan"][genre] = parseInt(element.JP_Sales)
-            data_by_region["Europe"][genre] = parseInt(element.EU_Sales)
-            data_by_region["Other"][genre] = parseInt(element.Other_Sales)
+            data_by_region["North America"][genre] = parseFloat(element.NA_Sales)
+            data_by_region["Japan"][genre] = parseFloat(element.JP_Sales)
+            data_by_region["Europe"][genre] = parseFloat(element.EU_Sales)
+            data_by_region["Other"][genre] = parseFloat(element.Other_Sales)
         }
     });
     return data_by_region;

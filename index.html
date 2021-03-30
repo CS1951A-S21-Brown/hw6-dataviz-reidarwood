@@ -13,23 +13,117 @@
     <div class="header">
         <h3>Assignment 6 &laquo; Data Visualization Dashboard &raquo;</h3>
     </div>
-    <!-- <div class="dropdown show">
-        <label for="years">Choose a car:</label>
-        
-        <select name="years" id="years">
-          <option value="">All Time</option>
-        </select>
-    </div> -->
+    
+    
     <!--  We included a basic HTML structure for the 3 graphs here. Feel free to change this if you'd like  -->
     <div class="row">
         <div class="col-lg-6">
             <div id="graph2"></div><br/>
+            <div class="dropdown show">
+                <!-- Dropdown for Year selection -->
+                <label for="years">Choose a Year:</label>
+                
+                <select name="years" id="years">
+                  <option value="">All Time</option>
+                </select>
+            </div>
             <div id="graph1"></div>
             
         </div>
         <div class="col-lg-6">
+            <!-- Dropdown for genre selection -->
+            <div class="dropdown show">
+                <label for="genre">Choose a Genre:</label>
+                
+                <select name="genre" id="genre">
+                  <option value="">All </option>
+                </select>
+            </div>
             <div id="graph3"></div>
         </div>
+    </div>
+
+    <div>
+        <h1>Written Questions:</h1>
+        <ol>
+            <li>
+                My dashboard consists of 3 graphs, one generally used to answer
+                each question. The first graph that I made was a simple bar chart
+                very similar to the ones that we dd in lab that shows the top video 
+                games by global sales. This firstly does it for all time data,
+                but there is also the option to select by year and view the top
+                games of a certain year. This uses a dropdown that is dynamically
+                constructed using the data provided on page load.
+
+                The second graph is a heatmap which shows genre sales by region.
+                Retrospectively, I don't think that this was the wisest decision
+                since sales in North America are much higher than other locations
+                so are much brighter in the heatmap. However there is also a tooltip
+                when hovering over a box that allows to remedy this.
+
+                Lastly, my third graph shows the top publishers overall, and then
+                can also look at top publishers in a certain genre. I chose a 
+                barplot to show this again, because I thought that it would
+                be the best way to show how good a publisher is based on how 
+                I quantified publishers (average sales of all video games produced).
+            </li>
+            <li>
+                D3 is really nice and really pretty which is probably the best thing
+                that it did for my data Visualization. Additionally, it has a lot of
+                flexibility, and you can show a lot of different types of graphs.
+
+                Additionally, in general it is pretty accessable with regards
+                to responsive data Visualization. People typically have a
+                browser and can use that to view the data without downloading
+                other software (such as needing to download python). So People
+                can see the Visualization without downloading anything.
+
+                Lastly, it handles a lot of the things like asyncronous calls
+                to a server, and such without needing to write http requests
+                and such. So it allows the use to be easier with nice library
+                functions without needing to hard code.
+            </li>
+            <li>
+                D3 might not always be the best thing to use however. If you are working
+                with data in pandas in python, it might be easier to use python libraries
+                like matplotlib so there is no need to save the file in a intermediary
+                state like csv before showing in D3.
+
+                Additionally, it is more time intensive than some other libraries. 
+                So it may not be the best thing to use if you are planning on
+                doing a static plot, or a rather simple Visualization. If that is
+                the case, then there are other libraries in many languages that
+                allow for a bar plot to be created much quicker.
+
+                Lastly, it is fairly verbose for the result in simple cases. Creating
+                a bar plot requires close to 100 lines of code, when in python if you
+                read a csv with pandas, you can produce a simple histogram in less than
+                5 lines of code.
+            </li>
+            <li>
+                I think that people with vision problems, specifically blindness would
+                have a difficult time with my dashboard. Even though I planned on
+                creating alt text for my charts, I didn't have time to dynamically render
+                the alt text, so was unable to do that for my charts. Since my charts are
+                dynamic, the alt text would also need to be dynameic. In the first reading
+                on blindness, and how to include alt text is what guided me here. Additionally,
+                colorblind people might have an issue with my third chart since the colors that
+                I used were red and green. However, color is not necessary for interpreting the chart,
+                so it is not world breaking on choices of color.
+            </li>
+
+            <li>
+                I could have planned more ahead, and gave myself more time to create the alt text.
+                That was the main cause that led me to not be as verbose, and legible for 
+                people with seeing disabilities. Additionally, I could have chosen better colors
+                than red and green for my chart on genres, but chose those since usually means
+                good and bad, and that is what I was trying to show. I couldn't really Choose
+                other colors, and feel like I was providing the same experience, and felt that 
+                the included text that I had were enough. Retrospectively, this doesn't provide the same
+                experience to able, and disabled people, and is probably not the most effective color 
+                choices that I could have made.
+            </li>
+        </ol>
     </div>
     <!--Feel free to add more JavaScript files as needed-->
     <script type="text/javascript" src="main.js"></script>
